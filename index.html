@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Gravity Simulator</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>">
+</head>
+<body>
+    <!-- Main Canvas Container -->
+    <div id="canvas-container"></div>
+
+    <!-- UI Overlay -->
+    <div id="app">
+        <!-- Sidebar Controls -->
+        <div id="sidebar">
+            <!-- Header -->
+            <div class="sidebar-header">
+                <span class="logo">⭐ Stardance</span>
+                <span class="version">v2.0</span>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="dashboard-stats">
+                <div class="stat-row">
+                    <span>🪐 Planets</span>
+                    <span id="planetCount">0</span>
+                </div>
+                <div class="stat-row">
+                    <span>⚖️ Total Mass</span>
+                    <span id="totalMass">0</span>
+                </div>
+                <div class="stat-row">
+                    <span>⏱️ Time</span>
+                    <span id="timeDisplay">00:00:00</span>
+                </div>
+                <div class="stat-row">
+                    <span>⚡ FPS</span>
+                    <span id="fpsDisplay">60</span>
+                </div>
+            </div>
+
+            <!-- Presets -->
+            <div class="control-group">
+                <label>🌌 Presets</label>
+                <div class="preset-grid">
+                    <button class="preset-btn active" data-preset="solar">☀️ Solar</button>
+                    <button class="preset-btn" data-preset="binary">⚡ Binary</button>
+                    <button class="preset-btn" data-preset="galaxy">🌀 Galaxy</button>
+                    <button class="preset-btn" data-preset="ring">💫 Ring</button>
+                    <button class="preset-btn" data-preset="blackhole">🕳️ Black Hole</button>
+                    <button class="preset-btn" data-preset="chaos">🌪️ Chaos</button>
+                </div>
+            </div>
+
+            <!-- Spawn Controls -->
+            <div class="control-group">
+                <label>🎯 Spawn Mass: <span id="massDisplay">10</span></label>
+                <input type="range" id="massSlider" min="1" max="500" value="10" />
+            </div>
+
+            <!-- Simulation Speed -->
+            <div class="control-group">
+                <label>⚡ Speed: <span id="speedDisplay">1.0x</span></label>
+                <input type="range" id="speedSlider" min="0" max="5" step="0.1" value="1" />
+            </div>
+
+            <!-- Camera Controls -->
+            <div class="control-group">
+                <label>🔍 Zoom: <span id="zoomDisplay">1.0x</span></label>
+                <input type="range" id="zoomSlider" min="0.1" max="3" step="0.05" value="1" />
+            </div>
+
+            <div class="control-group">
+                <label>🔄 Rotation: <span id="rotationDisplay">0°</span></label>
+                <input type="range" id="rotationSlider" min="0" max="360" value="0" />
+            </div>
+
+            <!-- Actions -->
+            <div class="control-group">
+                <label>🎮 Actions</label>
+                <div class="action-grid">
+                    <button id="pauseBtn" class="action-btn primary">⏸️ Pause</button>
+                    <button id="resetBtn" class="action-btn">🔄 Reset</button>
+                    <button id="deleteBtn" class="action-btn danger">🗑️ Delete</button>
+                    <button id="clearBtn" class="action-btn danger-heavy">💥 Clear</button>
+                </div>
+            </div>
+
+            <!-- View Controls -->
+            <div class="control-group">
+                <label>👁️ View</label>
+                <div class="action-grid">
+                    <button id="followSun" class="action-btn">☀️ Center</button>
+                    <button id="resetView" class="action-btn">🌍 Reset View</button>
+                </div>
+            </div>
+
+            <!-- Visual Toggles -->
+            <div class="control-group">
+                <label>🎨 Visuals</label>
+                <div class="toggle-grid">
+                    <button id="trailsBtn" class="toggle-btn active">Trails</button>
+                    <button id="labelsBtn" class="toggle-btn">Labels</button>
+                    <button id="orbitsBtn" class="toggle-btn active">Orbits</button>
+                    <button id="gridBtn" class="toggle-btn">Grid</button>
+                    <button id="glowBtn" class="toggle-btn active">Glow</button>
+                    <button id="heatmapBtn" class="toggle-btn">Heatmap</button>
+                </div>
+            </div>
+
+            <!-- Export/Import -->
+            <div class="control-group">
+                <label>💾 Data</label>
+                <div class="action-grid">
+                    <button id="exportPng" class="action-btn">📸 PNG</button>
+                    <button id="exportJson" class="action-btn">📥 JSON</button>
+                    <button id="loadJson" class="action-btn">📤 Load</button>
+                </div>
+                <input type="file" id="fileInput" accept=".json" style="display: none;" />
+            </div>
+
+            <!-- Inspector -->
+            <div class="inspector-panel">
+                <div class="inspector-title">🛰️ Selected</div>
+                <div class="inspector-content">
+                    <div class="inspector-row">
+                        <span>Name</span>
+                        <span id="infoName">—</span>
+                    </div>
+                    <div class="inspector-row">
+                        <span>Mass</span>
+                        <span id="infoMass">—</span>
+                    </div>
+                    <div class="inspector-row">
+                        <span>Distance</span>
+                        <span id="infoDist">—</span>
+                    </div>
+                    <div class="inspector-row">
+                        <span>Speed</span>
+                        <span id="infoSpeed">—</span>
+                    </div>
+                    <div class="inspector-row">
+                        <span>Velocity</span>
+                        <span id="infoVelocity">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shortcuts -->
+            <div class="shortcuts">
+                <div class="shortcut-row">
+                    <kbd>Space</kbd> <span>Play/Pause</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd>1-6</kbd> <span>Presets</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd>R</kbd> <span>Reset</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd>Drag</kbd> <span>Launch planet</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd>Shift+Click</kbd> <span>Delete planet</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd>Scroll</kbd> <span>Zoom</span>
+                </div>
+                <div class="shortcut-row">
+                    <kbd>Right Drag</kbd> <span>Pan</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div id="loading-screen">
+            <div class="loader"></div>
+            <p>Loading Stardance...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="js/planet.js"></script>
+    <script src="js/presets.js"></script>
+    <script src="js/physics.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/sketch.js"></script>
+</body>
+</html>
