@@ -1,53 +1,16 @@
-# 🪐 Stardance
+# 🪐 Stardance v2.0
 
+Hey! Welcome to Stardance, a gravity simulator I built because physics in space is chaotic and beautiful. I wanted a way to just play god with celestial bodies, so I built this interactive canvas.
 
+### 🌌 What this actually does:
+* Lets you spawn custom planets with different masses just by clicking/dragging.
+* Features a bunch of custom physics presets (Check out the 'Chaos' button if you want to break things).
+* Tracks live data like particle mass, velocity, and dynamic frame rates.
 
-An interactive, browser-based gravity simulator built with p5.js. 
+### 🛠️ My Hacking Journey & Roadblocks:
+I coded this using p5.js for the main rendering engine and spent way too much time wrestling with the UI layout. The absolute biggest headache was getting Vercel's deployment pipelines to read my file trees correctly after reorganizing my repository architecture, but we got there! 
 
-Explore orbital mechanics, create solar systems, and watch chaotic cosmic dances in real-time.
-
-
-
-***
-
-
- 
-## 🚀 Features
-
-* **Real-time Physics:** Accurate gravitational pull based on planetary mass.
-
-* **Sleek UI:** Clean, glassmorphism dashboard overlay for easy control.
-
-* **Cosmic Presets:** Quick-launch scenarios like Binary Stars, Galaxies, or Black Holes.
-
-* **Dynamic Controls:** Adjust speed, mass, zoom, and rotation on the fly.
-
-
-
-***
-
-
-
-## 🛠️ Tech Stack
-
-* HTML5
-
-* CSS3
-
-* JavaScript (p5.js library)
-
-
-
-***
-
-
-
-## 🎮 Controls
-
-* **Spacebar:** Play / Pause the simulation
-
-* **Left Click & Drag:** Launch a new planet
-
-* **Shift + Click:** Delete a planet
-
-* **Scroll Wheel:** Zoom in and out
+### 🚀 How to break my simulator:
+1. Open the live app link.
+2. Smash down a super heavy mass right in the center.
+3. Rapidly click around it to launch mini satellites and watch the gravity vectors do their thing.
