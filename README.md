@@ -1,5 +1,3 @@
-# 🪐 Stardance v2.0
-
 Hey! Welcome to Stardance, a gravity simulator I built because physics in space is chaotic and beautiful. I wanted a way to just play god with celestial bodies, so I built this interactive canvas.
 
 ### 🌌 What this actually does:
